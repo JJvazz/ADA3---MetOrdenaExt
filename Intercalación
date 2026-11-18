@@ -1,0 +1,42 @@
+import tkinter as tk
+from tkinter import messagebox
+
+def intercalacion(lista1, lista2):
+    res = []
+    i = 0
+    j = 0
+    while i < len(lista1) and j < len(lista2):
+        if lista1[i] <= lista2[j]:
+            res.append(lista1[i])
+            i += 1
+        else:
+            res.append(lista2[j])
+            j += 1
+    res.extend(lista1[i:])
+    res.extend(lista2[j:])
+    return res
+
+def ejecutar():
+    try:
+        l1 = list(map(int, entry1.get().split(',')))
+        l2 = list(map(int, entry2.get().split(',')))
+        l1.sort()
+        l2.sort()
+        resultado = intercalacion(l1, l2)
+        lbl_res.config(text=f"Resultado: {resultado}")
+    except ValueError:
+        messagebox.showerror("Error", "Ingrese números válidos separados por coma")
+
+root = tk.Tk()
+root.title("Intercalación")
+root.geometry("400x250")
+tk.Label(root, text="Lista 1 (separadas por coma):").pack(pady=5)
+entry1 = tk.Entry(root, width=40)
+entry1.pack()
+tk.Label(root, text="Lista 2 (separadas por coma):").pack(pady=5)
+entry2 = tk.Entry(root, width=40)
+entry2.pack()
+tk.Button(root, text="Intercalar", command=ejecutar).pack(pady=10)
+lbl_res = tk.Label(root, text="Resultado: ")
+lbl_res.pack(pady=10)
+root.mainloop()
